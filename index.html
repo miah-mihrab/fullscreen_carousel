@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Fullscreen Carousel</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- <button id="left_arrow"><</button>  -->
+        <div class="arrow" id="left_arrow"></div>
+        <div id="slider">
+            <div class="image image3" id="duplicateLast">
+                <div class="content">
+                    <span>Image Three</span>
+                </div>
+            </div>
+            <div class="image image1">
+                <div class="content">
+                    <span>Image one</span>
+                </div>
+            </div>
+            <div class="image image2">
+                <div class="content"><span>Image Two</span></div>
+            </div>
+            <div class="image image3">
+                <div class="content"><span>Image Three</span></div>
+            </div>
+            <div class="image image1 " id="duplicateFirst">
+                <div class="content"><span>Image One</span></div>
+            </div>
+        </div>
+        <!-- <button id="right_arrow">></button> -->
+        <div class="arrow" id="right_arrow">></div>
+    </div>
+
+
+
+    <script>
+        const slider = document.querySelector('#slider');
+        const images = document.querySelectorAll('.image');
+        let size = images[0].clientWidth;
+        let counter = 1; //Image Number
+        const prev = document.querySelector('#left_arrow');
+        const next = document.querySelector('#right_arrow');
+        //Translating slider div to left so that image one is in front initally
+        slider.style.transform = "translateX(" + (-size * counter) + "px)"
+
+        console.log(next)
+        next.addEventListener('click', () => {
+            if (counter >= images.length - 1) return;
+            slider.style.transition = "transform 0.4s ease-in-out";
+            counter++;
+            slider.style.transform = "translateX(" + (-size * counter) + "px)"
+
+        });
+
+        prev.addEventListener('click', () => {
+            if (counter <= 0) return;
+            slider.style.transition = "transform 0.4s ease-in-out";
+            counter--;
+            slider.style.transform = "translateX(" + (-size * counter) + "px)"
+        });
+
+
+        slider.addEventListener('transitionend', () => {
+            if (images[counter].id === 'duplicateLast') {
+                slider.style.transition = "none";
+                counter = images.length - 2;
+                slider.style.transform = "translateX(" + (-size * counter) + "px)";
+            }
+
+            if (images[counter].id === 'duplicateFirst') {
+                slider.style.transition = "none";
+                counter = images.length - counter;
+                slider.style.transform = "translateX(" + (-size * counter) + "px)"
+            }
+        })
+
+
+        function autoSlide() {
+            console.log(counter)
+            if (counter >= images.length - 1) return;
+            slider.style.transition = "transform 0.4s ease-in-out";
+            counter++;
+            slider.style.transform = "translateX(" + (-size * counter) + "px)"
+        }
+        setInterval(autoSlide, 3000);
+    </script>
+</body>
+
+</html>
